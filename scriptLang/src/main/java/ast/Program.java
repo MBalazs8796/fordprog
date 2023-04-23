@@ -42,16 +42,6 @@ public class Program extends Body {
         return globals.get(name);
     }
 
-    public void newStackFrame() {
-        locals.push(new HashMap<String, Value>());
-    }
-
-    public void freeStackFrame() {
-        if (locals.empty()) {
-            throw new RuntimeException("Returning to void");
-        }
-        locals.pop();
-    }
 
     @Override
     public String toString() {

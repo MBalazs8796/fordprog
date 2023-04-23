@@ -1,41 +1,58 @@
 package ast;
 
+
 public class Value {
-    private final boolean isBool;
+    private final ValueState state;
     private final double dVal;
-    private final boolean bVal;
+    private final long lVal;
 
-    public Value(double v) {
-        this.isBool = false;
-        this.dVal = v;
-        this.bVal = false;
+    public Value(double d) {
+        this.state = ValueState.DOUBLE;
+        this.dVal = d;
+        this.lVal = 0;
     }
 
-    public Value(boolean v) {
-        this.isBool = true;
-        this.dVal = 0.0;
-        this.bVal = v;
+    public Value(long v) {
+        this.state = ValueState.LONG;
+        this.dVal = 0;
+        this.lVal = v;
     }
 
-    public boolean getLogicValue() {
-        if (!this.isBool) {
-            throw new RuntimeException("Not a logic value!");
+    public Value(boolean b){
+        this.state = ValueState.BOOLEAN;
+        this.dVal = 0;
+        this.lVal = b ? 1 : 0;
+
+    }
+
+
+    public long getIntegerValue() {
+        if (this.state==ValueState.DOUBLE) {
+            throw new RuntimeException("Not an integer!");
         }
-        return this.bVal;
+        return this.lVal;
     }
 
-    public double getNumericValue() {
-        if (this.isBool) {
-            throw new RuntimeException("Not a numeric value!");
+    public double getDoubleValue() {
+        if (this.state!=ValueState.DOUBLE) {
+            throw new RuntimeException("Not a double!");
         }
         return this.dVal;
     }
 
+    public boolean isLong() {
+        return this.state!=ValueState.DOUBLE;
+    }
+
+    public boolean isLogical(){
+        return this.state==ValueState.BOOLEAN;
+    }
+
     public String toString() {
-        if (this.isBool) {
-            return this.bVal ? "true" : "false";
+        if (this.state!=ValueState.DOUBLE) {
+            return Long.toString(lVal);
         }
-        return new Double(dVal).toString();
+        return Double.toString(dVal);
     }
 
 }

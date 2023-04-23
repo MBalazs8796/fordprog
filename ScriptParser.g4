@@ -15,7 +15,7 @@ options {
         FunctionsLexer lex = new FunctionsLexer(CharStreams.fromFileName(args[0]));
         CommonTokenStream tokens = new CommonTokenStream (lex);
         FunctionsParser parser = new FunctionsParser(tokens);
-        parser.start();
+        parser.start(args.length > 1 && "--generate".equals(args[1]));
     }
 }
 

@@ -5,12 +5,11 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="911e962f-79f7-48ca-bf4e-3b8052fa01b1" name="Changes" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/.gitignore" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/fordprog.iml" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/modules.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/modules.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/runConfigurations.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/vcs.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/ScriptParser.g4" beforeDir="false" afterPath="$PROJECT_DIR$/ScriptParser.g4" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/scriptLang/src/main/java/ast/Program.java" beforeDir="false" afterPath="$PROJECT_DIR$/scriptLang/src/main/java/ast/Program.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/scriptLang/src/main/java/ast/Value.java" beforeDir="false" afterPath="$PROJECT_DIR$/scriptLang/src/main/java/ast/Value.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -20,6 +19,7 @@
   <component name="FileTemplateManagerImpl">
     <option name="RECENT_TEMPLATES">
       <list>
+        <option value="Enum" />
         <option value="Class" />
       </list>
     </option>
@@ -98,7 +98,7 @@
       <updated>1681733422683</updated>
       <workItem from="1681733424151" duration="844000" />
       <workItem from="1681734278445" duration="1535000" />
-      <workItem from="1682235445089" duration="8247000" />
+      <workItem from="1682235445089" duration="18836000" />
     </task>
     <servers />
   </component>
