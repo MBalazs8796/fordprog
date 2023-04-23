@@ -68,8 +68,11 @@ statement [ ast.Program prog ] returns [ ast.Statement node ]
       KW_DEFAULT DOUBLE_DOT sequence[prog]
       EBLOCK
     | type = (KW_INT | KW_DOUBLE )  ID
+        { $node = new ast.VarDecl($prog, $ID.text, $type.text); }
     | KW_DEL ID
+        { $node = new ast.Delete($prog, $ID.text); }
     | KW_BREAK
+        { $node = new ast.Break($prog); }
     ;
 
 assignment[ ast.Program prog ] returns [ ast.Statement node ]

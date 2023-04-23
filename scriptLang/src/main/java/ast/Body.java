@@ -9,11 +9,13 @@ public abstract class Body {
     private List<Statement> statements = new ArrayList<Statement>();
 
     public void addStatements(Sequence s) {
-        statements = s.getStatements();
+        System.out.println(s.toString());
+        statements.addAll(s.getStatements());
     }
 
     public void execute() {
         for (Statement s: statements) {
+            System.out.println(s.toString());
             s.execute();
         }
     }
