@@ -15,7 +15,7 @@ public class If extends Statement {
     @Override
     public void execute() {
         Value v = cond.evaluate(program);
-        if (v.getLogicValue()) {
+        if (v.getIntegerValue()==1) {
             trueBranch.execute();
         } else if (falseBranch != null) {
             falseBranch.execute();

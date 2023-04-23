@@ -12,16 +12,21 @@ options {
 
 @members {
     public static void main(String[] args) throws Exception {
-        FunctionsLexer lex = new FunctionsLexer(CharStreams.fromFileName(args[0]));
+        ScriptLexer lex = new ScriptLexer(CharStreams.fromFileName(args[0]));
         CommonTokenStream tokens = new CommonTokenStream (lex);
-        FunctionsParser parser = new FunctionsParser(tokens);
+        ScriptParser parser = new ScriptParser(tokens);
         parser.start(args.length > 1 && "--generate".equals(args[1]));
     }
 }
 
-start
+start [ boolean genSrc ]
     @init{ ast.Program p = new ast.Program(); }
-    @after{ p.execute(); }
+    @after{  if (genSrc) {
+                System.out.println(p);
+             } else {
+                 p.execute();
+             }
+          }
     : sequence[p] { p.addStatements($sequence.node); } EOF
     ;
 
@@ -32,15 +37,17 @@ sequence [ ast.Program prog ] returns [ ast.Sequence node ]
 statement [ ast.Program prog ] returns [ ast.Statement node ]
     : expr
         { $node = new ast.ExprStmt($prog, $expr.node); }
-    | KW_IF LPAR if_logic=logical_expr RPAR LF*
+    | { ast.Sequence if_elseSubSeq_node = null; }
+      KW_IF LPAR if_logic=logical_expr RPAR LF*
       SBLOCK LF*
       if_mainSubSeq=sequence[prog]
       EBLOCK LF*
       ( KW_ELSE SBLOCK LF*
         if_elseSubSeq=sequence[prog]
         EBLOCK LF*
+        { if_elseSubSeq_node = $if_elseSubSeq.node; }
       )?
-        { $node = new ast.If($prog, $if_logic.node, $if_mainSubSeq.node, if_elseSubSeq); }
+        { $node = new ast.If($prog, $if_logic.node, $if_mainSubSeq.node, if_elseSubSeq_node); }
     | KW_WHILE LPAR while_logic=logical_expr RPAR LF*
       SBLOCK LF*
       while_body=sequence[prog] LF*
