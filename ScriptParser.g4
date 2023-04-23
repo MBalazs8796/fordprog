@@ -60,7 +60,7 @@ statement
 
 varaible_action
     : ID OPASSIGN expr                                                  #assignStatement
-    | type = (KW_INT | KW_DOUBLE )  ID EXP_END                          #declarationStatement
+    | type = (KW_INT | KW_DOUBLE )  ID                                  #declarationStatement
     | KW_DEL ID                                                         #deleteStatement
     ;
 
