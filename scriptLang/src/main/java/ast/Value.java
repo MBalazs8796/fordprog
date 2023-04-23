@@ -1,6 +1,8 @@
 package ast;
 
 
+import java.time.Instant;
+
 public class Value {
     private final ValueState state;
     private final double dVal;
@@ -25,10 +27,18 @@ public class Value {
 
     }
 
+    public Value(){
+        this.state = ValueState.TIME;
+        this.dVal = 0;
+        this.lVal = 0;
+    }
+
 
     public long getIntegerValue() {
         if (this.state==ValueState.DOUBLE) {
             throw new RuntimeException("Not an integer!");
+        } else if(this.state==ValueState.TIME){
+            return Instant.now().getEpochSecond();
         }
         return this.lVal;
     }
@@ -48,8 +58,15 @@ public class Value {
         return this.state==ValueState.BOOLEAN;
     }
 
+    public boolean isTime(){
+        return this.state==ValueState.TIME;
+    }
+
     public String toString() {
-        if (this.state!=ValueState.DOUBLE) {
+        if(this.state == ValueState.TIME){
+            return "TIME";
+        }
+        else if (this.state!=ValueState.DOUBLE) {
             return Long.toString(lVal);
         }
         return Double.toString(dVal);

@@ -1,14 +1,12 @@
 package ast;
 
 public class For extends Statement {
-    private Statement assignment = null;
     private Expression logic = null;
-    private Expression incement = null;
+    private Statement incement = null;
     private Statement body = null;
 
-    public For(Program prog, Statement assignment, Expression logic, Expression increment, Statement body) {
+    public For(Program prog, Expression logic, Statement increment, Statement body) {
         super(prog);
-        this.assignment = assignment;
         this.logic = logic;
         this.incement = increment;
         this.body = body;
@@ -16,18 +14,17 @@ public class For extends Statement {
 
     @Override
     public void execute() {
-        assignment.execute();
         while (logic.evaluate(program).getIntegerValue()==1) {
             //program.setVariable(idxVar, new Value(b));
             body.execute();
-            incement.evaluate(program);
+            incement.execute();
         }
     }
 
     @Override
     public String toString() {
         return "for (" +
-                assignment.toString() +
+                //assignment.toString() +
                 "; " +
                 logic.toString() +
                 "; " +

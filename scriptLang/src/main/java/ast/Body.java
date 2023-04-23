@@ -9,7 +9,6 @@ public abstract class Body {
     private List<Statement> statements = new ArrayList<Statement>();
 
     public void addStatements(Sequence s) {
-        System.out.println(s.toString());
         statements.addAll(s.getStatements());
     }
 

@@ -37,6 +37,8 @@ sequence [ ast.Program prog ] returns [ ast.Sequence node ]
 statement [ ast.Program prog ] returns [ ast.Statement node ]
     : expr
         { $node = new ast.ExprStmt($prog, $expr.node); }
+    | ID OPASSIGN expr
+       { $node = new ast.Assignment($prog, $ID.text, $expr.node); }
     | { ast.Sequence if_elseSubSeq_node = null; }
       KW_IF LPAR if_logic=logical_expr RPAR LF*
       SBLOCK LF*
@@ -53,11 +55,11 @@ statement [ ast.Program prog ] returns [ ast.Statement node ]
       while_body=sequence[prog] LF*
       EBLOCK LF*
         { $node = new ast.While($prog, $while_logic.node, $while_body.node); }
-    | KW_FOR LPAR (for_assign=assignment[prog])? OPEND for_logic=logical_expr OPEND for_incr=expr OPEND RPAR LF*
+    | KW_FOR LPAR (ID OPASSIGN expr { $node = new ast.Assignment($prog, $ID.text, $expr.node); })? OPEND for_logic=logical_expr OPEND for_incr=statement[prog] RPAR LF*
       SBLOCK LF*
       for_body=sequence[prog] LF*
       EBLOCK
-        { $node = new ast.For($prog, $for_assign.node, $for_logic.node, $for_incr.node, $for_body.node); }
+        { $node = new ast.For($prog, $for_logic.node, $for_incr.node, $for_body.node); }
     | KW_PRINT LPAR top_print=expr { $node = new ast.Print($prog, $top_print.node); }
         (OPLST sub_print=expr { $node = new ast.Print($prog, $sub_print.node); })* RPAR
     | KW_SCAN LPAR ID { $node = new ast.Scan($prog, $ID.text); }
@@ -68,27 +70,22 @@ statement [ ast.Program prog ] returns [ ast.Statement node ]
       KW_DEFAULT DOUBLE_DOT sequence[prog]
       EBLOCK
     | type = (KW_INT | KW_DOUBLE )  ID
-        { $node = new ast.VarDecl($prog, $ID.text, $type.text); }
+        { $node = new ast.VarDecl($prog, $ID.text, $type.text);}
     | KW_DEL ID
         { $node = new ast.Delete($prog, $ID.text); }
     | KW_BREAK
         { $node = new ast.Break($prog); }
     ;
 
-assignment[ ast.Program prog ] returns [ ast.Statement node ]
-    : ID OPASSIGN expr
-             { $node = new ast.Assignment($prog, $ID.text, $expr.node); }
-    ;
-
 expr returns [ ast.Expression node ]
-    : logical_expr { $node=$logical_expr.node; }
+    : logical_expr { $node=$logical_expr.node;}
     | num_expr { $node=$num_expr.node; }
-    | dec_expr { $node=$dec_expr.node; }
+//    | dec_expr { $node=$dec_expr.node; }
     ;
 
-dec_expr returns [ ast.Expression node ]
-    : logical_expr QMARK expr DOUBLE_DOT expr
-    ;
+//dec_expr returns [ ast.Expression node ]
+//    : logical_expr QMARK expr DOUBLE_DOT expr
+//    ;
 
 logical_expr returns [ ast.Expression node ]
     : or_top=logical_tag { $node = $or_top.node; }
@@ -131,5 +128,5 @@ num_fct returns [ ast.Expression node ]
     ;
 
 variable returns [ ast.Expression node ]
-    : ID
+    : ID { $node = new ast.Variable($ID.text); }
     ;

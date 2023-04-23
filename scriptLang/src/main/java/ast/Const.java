@@ -8,10 +8,10 @@ public class Const extends Expression {
 
     public Const(String literal) {
         this.literal = literal;
-        if("time".equals(literal)){
-            this.value = new Value(Instant.now().getEpochSecond());
-        } else{
+        if (literal.contains(".")){
             this.value = new Value(Double.parseDouble(literal));
+        } else{
+            this.value = new Value(Integer.parseInt(literal));
         }
     }
 

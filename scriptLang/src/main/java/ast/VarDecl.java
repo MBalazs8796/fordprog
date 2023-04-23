@@ -12,7 +12,7 @@ public class VarDecl extends Statement {
 
     @Override
     public void execute() {
-        program.addVariable(varName);
+        program.addVariable(varName, varType);
     }
 
     @Override
