@@ -18,12 +18,7 @@ options {
         ParseTree tree = parser.start();
         FunctionsVisitor visitor = new FunctionsVisitor();
         ast.Program p = (ast.Program) (visitor.visit(tree));
-
-        if (args.length > 1 && "--generate".equals(args[1])) {
-            System.out.println(p);
-        } else {
-            p.execute();
-        }
+        p.execute();
     }
 }
 
@@ -32,40 +27,51 @@ start
     ;
 
 sequence
-    : (statement LF+ )+
+    : (statement OPEND LF* )+
     ;
 
 statement
     : expr                                                              #exprStatement
-    | ID OPASSIGN expr                                                  #assignStatement
-    | KW_IF logical_expr LF*
-      KW_THEN LF* tb=sequence LF*
-      ( KW_ELSE LF*
-        fb=sequence LF*
-      )?
-      KW_END                                                            #ifStatement
-    | KW_WHILE logical_expr LF*
-      KW_DO LF*
-      sequence LF*
-      KW_END                                                            #whileStatement
-    | KW_FOR ID KW_IN LPAR beg=expr OPLST end=expr RPAR LF*
-      KW_DO LF* sequence LF*
-      KW_END                                                            #forStatement
-    | KW_RET expr                                                       #returnStatement
-    | KW_VAR ID                                                         #declarationStatement
-    | KW_FUNC ID LPAR parlist RPAR LF
+    | varaible_action                                                   #varaibleActionStatement
+    | KW_IF LPAR logical_expr RPAR LF*
+      SBLOCK LF*
       sequence
-      KW_END                                                            #functionStatement
-    | KW_PRINT LPAR expr RPAR                                           #printStatement
+      EBLOCK LF*
+      ( KW_ELSE LF*
+        fb=sequence
+      )?                                                                #ifStatement
+    | KW_WHILE LPAR logical_expr RPAR LF*
+      SBLOCK LF*
+      sequence LF*
+      EBLOCK LF*                                                        #whileStatement
+    | KW_FOR LPAR varaible_action expr expr RPAR LF*
+      SBLOCK LF*
+      sequence LF*
+      EBLOCK LF*                                                        #forStatement
+    | KW_PRINT LPAR expr+ RPAR                                          #printStatement
+    | KW_SCAN LPAR ID RPAR                                              #scanSingleStatement
+    | KW_SCAN LPAR (ID OPLST)+ RPAR LF*                                 #scanManyStatement
+    | KW_SWITCH LPAR ID RPAR LF*
+      SBLOCK LF*
+      (KW_CASE SZAM DOUBLE_DOT sequence)*
+      KW_DEFAULT DOUBLE_DOT sequence
+      EBLOCK                                                            #switchStatement
     ;
 
-parlist
-    : ( ID ( OPLST ID )* )?
+varaible_action
+    : ID OPASSIGN expr                                                  #assignStatement
+    | type = (KW_INT | KW_DOUBLE )  ID EXP_END                          #declarationStatement
+    | KW_DEL ID                                                         #deleteStatement
     ;
 
 expr
     : logical_expr
     | num_expr
+    | dec_expr
+    ;
+
+dec_expr
+    : logical_expr QMARK expr DOUBLE_DOT expr
     ;
 
 logical_expr
@@ -81,7 +87,6 @@ logical_fct
     | OPNOT logical_fct                                                 #logUnary
     | LPAR logical_expr RPAR                                            #logParens
     | variable                                                          #logVariable
-    | functioncall                                                      #logFunctionCall
     ;
 
 num_expr
@@ -98,21 +103,12 @@ mulop
 
 num_fct
     : SZAM                                                              #numLiteral
-    | STRING                                                            #strLiteral
+    | TIME                                                              #timeLiteral
     | LPAR num_expr RPAR                                                #numParens
     | op=( OPADD | OPABS ) num_fct                                      #numUnary
     | variable                                                          #numVariable
-    | functioncall                                                      #numFunctionCall
     ;
 
 variable
     : ID
-    ;
-
-functioncall
-    : ID LPAR arglist RPAR
-    ;
-
-arglist
-    : ( expr ( OPLST expr )* )?
     ;
