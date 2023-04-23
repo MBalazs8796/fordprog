@@ -80,12 +80,13 @@ statement [ ast.Program prog ] returns [ ast.Statement node ]
 expr returns [ ast.Expression node ]
     : logical_expr { $node=$logical_expr.node;}
     | num_expr { $node=$num_expr.node; }
-//    | dec_expr { $node=$dec_expr.node; }
+    | dec_expr { $node=$dec_expr.node; }
     ;
 
-//dec_expr returns [ ast.Expression node ]
-//    : logical_expr QMARK expr DOUBLE_DOT expr
-//    ;
+dec_expr returns [ ast.Expression node ]
+    : logic=logical_expr QMARK true_b=expr DOUBLE_DOT false_b=expr
+        { $node = new ast.Ternary($logic.node, $true_b.node, $false_b.node); }
+    ;
 
 logical_expr returns [ ast.Expression node ]
     : or_top=logical_tag { $node = $or_top.node; }

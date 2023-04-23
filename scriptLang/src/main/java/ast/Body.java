@@ -14,7 +14,7 @@ public abstract class Body {
 
     public void execute() {
         for (Statement s: statements) {
-            System.out.println(s.toString());
+            //System.out.println(s.toString());
             s.execute();
         }
     }

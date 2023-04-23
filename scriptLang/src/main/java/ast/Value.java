@@ -64,7 +64,7 @@ public class Value {
 
     public String toString() {
         if(this.state == ValueState.TIME){
-            return "TIME";
+            return Long.toString(Instant.now().getEpochSecond());
         }
         else if (this.state!=ValueState.DOUBLE) {
             return Long.toString(lVal);
