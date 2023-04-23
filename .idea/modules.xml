@@ -3,6 +3,7 @@
   <component name="ProjectModuleManager">
     <modules>
       <module fileurl="file://$PROJECT_DIR$/.idea/fordprog.iml" filepath="$PROJECT_DIR$/.idea/fordprog.iml" />
+      <module fileurl="file://$PROJECT_DIR$/scriptLang/scriptLang.iml" filepath="$PROJECT_DIR$/scriptLang/scriptLang.iml" />
     </modules>
   </component>
 </project>
