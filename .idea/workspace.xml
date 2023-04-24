@@ -6,11 +6,13 @@
   <component name="ChangeListManager">
     <list default="true" id="911e962f-79f7-48ca-bf4e-3b8052fa01b1" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/ScriptLexer.g4" beforeDir="false" afterPath="$PROJECT_DIR$/ScriptLexer.g4" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/ScriptParser.g4" beforeDir="false" afterPath="$PROJECT_DIR$/ScriptParser.g4" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/input1.txt" beforeDir="false" afterPath="$PROJECT_DIR$/input1.txt" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/scriptLang/src/main/java/ScriptParser.interp" beforeDir="false" afterPath="$PROJECT_DIR$/scriptLang/src/main/java/ScriptParser.interp" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/scriptLang/src/main/java/ScriptParser.java" beforeDir="false" afterPath="$PROJECT_DIR$/scriptLang/src/main/java/ScriptParser.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/scriptLang/src/main/java/ast/Body.java" beforeDir="false" afterPath="$PROJECT_DIR$/scriptLang/src/main/java/ast/Body.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/scriptLang/src/main/java/ast/Const.java" beforeDir="false" afterPath="$PROJECT_DIR$/scriptLang/src/main/java/ast/Const.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/scriptLang/src/main/java/ast/Scan.java" beforeDir="false" afterPath="$PROJECT_DIR$/scriptLang/src/main/java/ast/Scan.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/scriptLang/src/main/java/ast/Switch.java" beforeDir="false" afterPath="$PROJECT_DIR$/scriptLang/src/main/java/ast/Switch.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/scriptLang/src/main/java/ast/Value.java" beforeDir="false" afterPath="$PROJECT_DIR$/scriptLang/src/main/java/ast/Value.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -76,15 +78,13 @@
         <option name="Make" enabled="true" />
       </method>
     </configuration>
-    <configuration default="true" type="ArquillianTestNG" factoryName="" nameIsGenerated="true">
+    <configuration default="true" type="ArquillianJUnit" factoryName="" nameIsGenerated="true">
       <option name="arquillianRunConfiguration">
         <value>
           <option name="containerStateName" value="" />
         </value>
       </option>
-      <option name="TEST_OBJECT" value="CLASS" />
-      <properties />
-      <listeners />
+      <option name="TEST_OBJECT" value="class" />
       <method v="2">
         <option name="Make" enabled="true" />
       </method>
@@ -101,6 +101,7 @@
       <workItem from="1681733424151" duration="844000" />
       <workItem from="1681734278445" duration="1535000" />
       <workItem from="1682235445089" duration="24069000" />
+      <workItem from="1682317329520" duration="4681000" />
     </task>
     <servers />
   </component>
@@ -117,6 +118,7 @@
         </entry>
       </map>
     </option>
+    <option name="oldMeFiltersMigrated" value="true" />
   </component>
   <component name="VcsManagerConfiguration">
     <option name="ADD_EXTERNAL_FILES_SILENTLY" value="true" />

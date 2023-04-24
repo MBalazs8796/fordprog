@@ -8,6 +8,8 @@ options {
 @header {
     import java.util.ArrayList;
     import java.util.List;
+    import java.util.Map;
+    import java.util.LinkedHashMap;
 }
 
 @members {
@@ -31,7 +33,7 @@ start [ boolean genSrc ]
     ;
 
 sequence [ ast.Program prog ] returns [ ast.Sequence node ]
-    : { $node = new ast.Sequence(prog); } (statement[prog] OPEND LF* { $node.addStatement($statement.node); })+
+    : { $node = new ast.Sequence(prog); } (LF* statement[prog] OPEND LF* { $node.addStatement($statement.node); })+
     ;
 
 statement [ ast.Program prog ] returns [ ast.Statement node ]
@@ -63,12 +65,17 @@ statement [ ast.Program prog ] returns [ ast.Statement node ]
     | KW_PRINT LPAR top_print=expr { $node = new ast.Print($prog, $top_print.node); }
         (OPLST sub_print=expr { $node = new ast.Print($prog, $sub_print.node); })* RPAR
     | KW_SCAN LPAR ID { $node = new ast.Scan($prog, $ID.text); }
-        (OPLST ID { $node = new ast.Scan($prog, $ID.text); } )* RPAR
-    | KW_SWITCH LPAR ID RPAR LF*
+        (OPLST ID { $node = new ast.Scan($prog, $ID.text); } )* RPAR LF*
+    | {
+    Map<ast.Const, ast.Sequence> cases = new LinkedHashMap<>();}
+      KW_SWITCH LPAR target=ID RPAR LF*
       SBLOCK LF*
-      (KW_CASE SZAM DOUBLE_DOT sequence[prog])*
-      KW_DEFAULT DOUBLE_DOT sequence[prog]
+      (KW_CASE SZAM DOUBLE_DOT case_body=sequence[prog]
+        {cases.put(new ast.Const($SZAM.text), $case_body.node);}
+      )*
+      KW_DEFAULT DOUBLE_DOT def_seq=sequence[prog]
       EBLOCK
+      { $node = new ast.Switch($prog, $target.text, $def_seq.node, cases); }
     | type = (KW_INT | KW_DOUBLE )  ID
         { $node = new ast.VarDecl($prog, $ID.text, $type.text);}
     | KW_DEL ID

@@ -13,7 +13,7 @@ public class Scan extends Statement{
     @Override
     public void execute() {
         Scanner sc = new Scanner(System.in);
-        program.setVariable(varname, new Value(sc.nextDouble()));
+        program.setVariable(varname, new Const(sc.nextLine()).evaluate(program));
     }
 
     @Override

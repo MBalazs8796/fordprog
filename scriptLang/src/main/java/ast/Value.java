@@ -2,6 +2,7 @@ package ast;
 
 
 import java.time.Instant;
+import java.util.Objects;
 
 public class Value {
     private final ValueState state;
@@ -60,6 +61,14 @@ public class Value {
 
     public boolean isTime(){
         return this.state==ValueState.TIME;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Value value = (Value) o;
+        return Double.compare(value.dVal, dVal) == 0 && lVal == value.lVal && state == value.state;
     }
 
     public String toString() {
