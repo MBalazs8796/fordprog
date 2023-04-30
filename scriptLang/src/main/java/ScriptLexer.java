@@ -46,7 +46,7 @@ public class ScriptLexer extends Lexer {
 			null, null, "'\\n'", null, "'if'", "'else'", "'for'", "'while'", "'print'", 
 			"'scan'", "'then'", "'int'", "'double'", "'del'", "'switch'", "'case'", 
 			"'default'", "'break'", null, "'='", "'or'", "'and'", "'not'", null, 
-			null, null, null, "'^'", "','", "'abs'", "'('", "')'", "'{'", "'}'", 
+			null, null, null, "'^'", "','", "'ABS'", "'('", "')'", "'{'", "'}'", 
 			"';'", "':'", "'?'", null, null, "'TIME'"
 		};
 	}
@@ -253,8 +253,8 @@ public class ScriptLexer extends Lexer {
 		"\u0000\u00c9\u00ca\u0007\u0002\u0000\u0000\u00ca0\u0001\u0000\u0000\u0000"+
 		"\u00cb\u00cc\u0007\u0003\u0000\u0000\u00cc2\u0001\u0000\u0000\u0000\u00cd"+
 		"\u00ce\u0005^\u0000\u0000\u00ce4\u0001\u0000\u0000\u0000\u00cf\u00d0\u0005"+
-		",\u0000\u0000\u00d06\u0001\u0000\u0000\u0000\u00d1\u00d2\u0005a\u0000"+
-		"\u0000\u00d2\u00d3\u0005b\u0000\u0000\u00d3\u00d4\u0005s\u0000\u0000\u00d4"+
+		",\u0000\u0000\u00d06\u0001\u0000\u0000\u0000\u00d1\u00d2\u0005A\u0000"+
+		"\u0000\u00d2\u00d3\u0005B\u0000\u0000\u00d3\u00d4\u0005S\u0000\u0000\u00d4"+
 		"8\u0001\u0000\u0000\u0000\u00d5\u00d6\u0005(\u0000\u0000\u00d6:\u0001"+
 		"\u0000\u0000\u0000\u00d7\u00d8\u0005)\u0000\u0000\u00d8<\u0001\u0000\u0000"+
 		"\u0000\u00d9\u00da\u0005{\u0000\u0000\u00da>\u0001\u0000\u0000\u0000\u00db"+

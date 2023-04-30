@@ -1,0 +1,4 @@
+double x;
+scan(x);
+
+print(ABS(x));
