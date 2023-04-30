@@ -63,9 +63,9 @@ statement [ ast.Program prog ] returns [ ast.Statement node ]
       EBLOCK
         { $node = new ast.For($prog, $for_logic.node, $for_incr.node, $for_body.node); }
     | KW_PRINT LPAR top_print=expr { $node = new ast.Print($prog, $top_print.node); }
-        (OPLST sub_print=expr { $node = new ast.Print($prog, $sub_print.node); })* RPAR OPEND
+        (OPLST sub_print=expr { $node = new ast.Print($prog, $node, $sub_print.node); })* RPAR OPEND
     | KW_SCAN LPAR ID { $node = new ast.Scan($prog, $ID.text); }
-        (OPLST ID { $node = new ast.Scan($prog, $ID.text); } )* RPAR OPEND
+        (OPLST ID { $node = new ast.Scan($prog, $node, $ID.text); } )* RPAR OPEND
     | {
     Map<ast.Const, ast.Sequence> cases = new LinkedHashMap<>();}
       KW_SWITCH LPAR target=ID RPAR LF*
