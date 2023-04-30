@@ -141,7 +141,8 @@ num_fct returns [ ast.Expression node ]
     : SZAM { $node = new ast.Const($SZAM.text); }
     | TIME { $node = new ast.Const($TIME.text); }
     | LPAR num_expr { $node = new ast.Parens($num_expr.node); } RPAR
-    | op=( OPADD | OPABS ) num_fct { $node = new ast.Unary($op.text, $num_fct.node); }
+    | OPADD num_fct { $node = new ast.Unary($OPADD.text, $num_fct.node); }
+    | OPABS LPAR num_fct RPAR {$node = new ast.Unary($OPABS.text, $num_fct.node);}
     | vr=variable { $node = $vr.node; }
     ;
 

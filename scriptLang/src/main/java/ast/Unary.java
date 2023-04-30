@@ -2,7 +2,7 @@ package ast;
 
 public class Unary extends Expression {
     private enum UnaryOperator {
-        PLS("+"), NEG("-"), ABS("abs"), NOT("not");
+        PLS("+"), NEG("-"), ABS("ABS"), NOT("not");
         private String text;
         private UnaryOperator(String text) {
             this.text = text;
@@ -33,7 +33,7 @@ public class Unary extends Expression {
             case NEG: return val.isLong() ? new Value(-val.getIntegerValue()) : new Value(-val.getDoubleValue());
             case ABS: {
                 if(val.isLong()){
-                    return val;
+                    return new Value(Math.abs(val.getIntegerValue()));
                 } else{
                     return new Value(Math.abs(val.getDoubleValue()));
                 }

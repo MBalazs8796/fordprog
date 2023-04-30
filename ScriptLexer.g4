@@ -33,7 +33,7 @@ OPADD      : '+' | '-' ;
 OPMUL      : '*' | '/' ;
 OPPWR      : '^' ;
 OPLST      : ',' ;
-OPABS      : 'abs' ;
+OPABS      : 'ABS' ;
 LPAR       : '(' ;
 RPAR       : ')' ;
 SBLOCK     : '{' ;
