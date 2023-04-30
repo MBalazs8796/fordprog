@@ -1,15 +1,19 @@
 package ast;
 
-public class If extends Statement {
-    private Expression cond = null;
-    private Statement trueBranch = null;
-    private Statement falseBranch = null;
+import java.util.List;
 
-    public If(Program prog, Expression if_logic, Sequence if_mainSubSeq, Sequence if_elseSubSeq) {
+public class If extends Statement {
+    private final Expression cond;
+    private final Statement trueBranch;
+    private final Statement falseBranch;
+    private List<LogicBodyPair> elseifs;
+
+    public If(Program prog, Expression if_logic, Sequence if_mainSubSeq, Sequence if_elseSubSeq, List<LogicBodyPair> elseifs) {
         super(prog);
         this.cond = if_logic;
         this.trueBranch = if_mainSubSeq;
         this.falseBranch = if_elseSubSeq;
+        this.elseifs = elseifs;
     }
 
     @Override
@@ -17,8 +21,15 @@ public class If extends Statement {
         Value v = cond.evaluate(program);
         if (v.getIntegerValue()==1) {
             trueBranch.execute();
-        } else if (falseBranch != null) {
-            falseBranch.execute();
+        } else{
+            for(LogicBodyPair pair : elseifs){
+                if(pair.eval(program)){
+                    return;
+                }
+            }
+            if (falseBranch != null) {
+                falseBranch.execute();
+            }
         }
     }
 
