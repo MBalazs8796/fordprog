@@ -33,13 +33,13 @@ start [ boolean genSrc ]
     ;
 
 sequence [ ast.Program prog ] returns [ ast.Sequence node ]
-    : { $node = new ast.Sequence(prog); } (LF* statement[prog] OPEND LF* { $node.addStatement($statement.node); })+
+    : { $node = new ast.Sequence(prog); } (LF* statement[prog] LF* { $node.addStatement($statement.node); })+
     ;
 
 statement [ ast.Program prog ] returns [ ast.Statement node ]
     : expr
         { $node = new ast.ExprStmt($prog, $expr.node); }
-    | ID OPASSIGN expr
+    | ID OPASSIGN expr OPEND
        { $node = new ast.Assignment($prog, $ID.text, $expr.node); }
     | { ast.Sequence if_elseSubSeq_node = null; }
       KW_IF LPAR if_logic=logical_expr RPAR LF*
@@ -63,9 +63,9 @@ statement [ ast.Program prog ] returns [ ast.Statement node ]
       EBLOCK
         { $node = new ast.For($prog, $for_logic.node, $for_incr.node, $for_body.node); }
     | KW_PRINT LPAR top_print=expr { $node = new ast.Print($prog, $top_print.node); }
-        (OPLST sub_print=expr { $node = new ast.Print($prog, $sub_print.node); })* RPAR
+        (OPLST sub_print=expr { $node = new ast.Print($prog, $sub_print.node); })* RPAR OPEND
     | KW_SCAN LPAR ID { $node = new ast.Scan($prog, $ID.text); }
-        (OPLST ID { $node = new ast.Scan($prog, $ID.text); } )* RPAR LF*
+        (OPLST ID { $node = new ast.Scan($prog, $ID.text); } )* RPAR OPEND
     | {
     Map<ast.Const, ast.Sequence> cases = new LinkedHashMap<>();}
       KW_SWITCH LPAR target=ID RPAR LF*
@@ -76,11 +76,11 @@ statement [ ast.Program prog ] returns [ ast.Statement node ]
       KW_DEFAULT DOUBLE_DOT def_seq=sequence[prog]
       EBLOCK
       { $node = new ast.Switch($prog, $target.text, $def_seq.node, cases); }
-    | type = (KW_INT | KW_DOUBLE )  ID
+    | type = (KW_INT | KW_DOUBLE )  ID OPEND
         { $node = new ast.VarDecl($prog, $ID.text, $type.text);}
-    | KW_DEL ID
+    | KW_DEL ID OPEND
         { $node = new ast.Delete($prog, $ID.text); }
-    | KW_BREAK
+    | KW_BREAK OPEND
         { $node = new ast.Break($prog); }
     ;
 
