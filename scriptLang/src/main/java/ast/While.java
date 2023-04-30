@@ -13,7 +13,11 @@ public class While extends Statement {
     @Override
     public void execute() {
         while (cond.evaluate(program).getIntegerValue() == 1) {
-            stmt.execute();
+            try{
+                stmt.execute();
+            } catch (Breaking b){
+                break;
+            }
         }
     }
 

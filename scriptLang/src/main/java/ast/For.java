@@ -16,7 +16,11 @@ public class For extends Statement {
     public void execute() {
         while (logic.evaluate(program).getIntegerValue()==1) {
             //program.setVariable(idxVar, new Value(b));
-            body.execute();
+            try{
+                body.execute();
+            } catch (Breaking b){
+                return;
+            }
             incement.execute();
         }
     }
