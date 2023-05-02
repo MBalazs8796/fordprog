@@ -4,9 +4,9 @@ int x;
 starttime = TIME;
 print(TIME);
 sum = 1 < 2 ? 0 : 2;
-for (x=0; x<10; x=x+1) {
+for (x=0; x<10; x=x+1;) {
   sum = sum + x;
-};
+}
 print(sum);
 print(TIME);
 print(TIME - starttime);

@@ -2,23 +2,24 @@ package ast;
 
 public class VarDecl extends Statement {
     private String varName;
+    private String varType;
 
-    public VarDecl(Program prog, String name) {
+    public VarDecl(Program prog, String name, String type) {
         super(prog);
         varName = name;
+        varType = type;
     }
 
     @Override
     public void execute() {
-        program.addVariable(varName);
+        program.addVariable(varName, varType);
     }
 
     @Override
     public String toString() {
-        StringBuilder str = new StringBuilder();
-        str.append("var ")
-           .append(varName)
-           .append("\n");
-        return str.toString();
+        return varType +
+                " " +
+                varName +
+                "\n";
     }
 }

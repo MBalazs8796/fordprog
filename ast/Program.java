@@ -7,32 +7,22 @@ import java.util.Map;
 import java.util.Stack;
 
 public class Program extends Body {
-    private Map<String, Function> functions = new HashMap<String, Function>();
     private Map<String, Value> globals = new HashMap<String, Value>();
-    private Stack<Map<String, Value>> locals = new Stack<Map<String, Value>>();
 
-    public void addFunction(Function f) {
-        functions.put(f.getFname(), f);
-    }
-
-    public Function getFunction(String name) {
-        return functions.get(name);
-    }
-
-    public void addVariable(String name) {
-        Map<String, Value> table = globals;
-        if (!locals.empty()) {
-            table = locals.peek();
-        }
-        if (table.containsKey(name)) {
+    public void addVariable(String name, String type) {
+        if (globals.containsKey(name)) {
             throw new RuntimeException("Double declaration of variable " + name);
         }
-        table.put(name, null);
+        globals.put(name, "double".equals(type) ? new Value(0.0) : new Value(0));
     }
 
     public void setVariable(String name, Value val) {
-        if (!locals.empty() && locals.peek().containsKey(name)) {
-            locals.peek().put(name, val);
+        if (globals.containsKey(name)) {
+            Value cur_val = globals.get(name);
+            if (cur_val != null && cur_val.isLong() != val.isLong()){
+                throw new TypeMismatchException("Type mismatch between variable:" + name + " and value: " + val.toString());
+            }
+            globals.put(name, val.isTime() ? new Value(val.getIntegerValue()) : val);
             return;
         }
         if (!globals.containsKey(name)) {
@@ -42,8 +32,8 @@ public class Program extends Body {
     }
 
     public Value getVariable(String name) {
-        if (!locals.empty() && locals.peek().containsKey(name)) {
-            return locals.peek().get(name);
+        if (globals.containsKey(name)) {
+            return globals.get(name);
         }
         if (!globals.containsKey(name)) {
             throw new RuntimeException("No variable " + name);
@@ -51,23 +41,16 @@ public class Program extends Body {
         return globals.get(name);
     }
 
-    public void newStackFrame() {
-        locals.push(new HashMap<String, Value>());
-    }
-
-    public void freeStackFrame() {
-        if (locals.empty()) {
-            throw new RuntimeException("Returning to void");
-        }
-        locals.pop();
+    public void deleteVariable(String name) {
+        globals.remove(name);
     }
 
     @Override
     public String toString() {
         StringBuilder str = new StringBuilder();
         str.append("## Program\n")
-           .append(super.toString())
-           .append("## End\n");
+                .append(super.toString())
+                .append("## End\n");
         return str.toString();
     }
 }

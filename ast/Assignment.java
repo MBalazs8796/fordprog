@@ -24,9 +24,10 @@ public class Assignment extends Statement {
     public String toString() {
         StringBuilder str = new StringBuilder();
         str.append(varName)
-           .append(" = ")
-           .append(expr.toString())
-           .append("\n");
+                .append(" = ")
+                .append(expr.toString())
+                .append("\n");
         return str.toString();
     }
+
 }

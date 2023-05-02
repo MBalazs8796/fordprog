@@ -1,0 +1,1 @@
+javac -cp antlr.jar:. ScriptParser.java && java -cp antlr.jar:. ScriptParser ./input1.txt

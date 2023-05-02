@@ -12,20 +12,21 @@ public class While extends Statement {
 
     @Override
     public void execute() {
-        boolean b; 
-        while (b = cond.evaluate(program).getLogicValue()) {
-            stmt.execute();
+        while (cond.evaluate(program).getIntegerValue() == 1) {
+            try{
+                stmt.execute();
+            } catch (Breaking b){
+                break;
+            }
         }
     }
 
     @Override
     public String toString() {
-        StringBuilder str = new StringBuilder();
-        str.append("while ")
-           .append(cond.toString())
-           .append("\ndo\n")
-           .append(stmt.toString())
-           .append("end\n");
-        return str.toString();
+        return "while (" +
+                cond.toString() +
+                ") {\n" +
+                stmt.toString() +
+                "}\n";
     }
 }

@@ -1,5 +1,7 @@
 package ast;
 
+import java.time.Instant;
+
 public class Variable extends Expression {
     private String id;
 
@@ -9,6 +11,10 @@ public class Variable extends Expression {
 
     @Override
     public Value evaluate(Program p) {
+        if("TIME".equals(id)){
+            // def c creates time value
+            return new Value();
+        }
         return p.getVariable(this.id);
     }
 

@@ -1,42 +1,40 @@
 package ast;
 
 public class For extends Statement {
-    private String idxVar = null;
-    private Expression start = null;
-    private Expression stop = null;
-    private Statement stmt = null;
+    private Expression logic = null;
+    private Statement incement = null;
+    private Statement body = null;
 
-    public For(Program prog, String v, Expression l, Expression h, Statement s) {
+    public For(Program prog, Expression logic, Statement increment, Statement body) {
         super(prog);
-        idxVar = v;
-        start = l;
-        stop = h;
-        stmt = s;
+        this.logic = logic;
+        this.incement = increment;
+        this.body = body;
     }
 
     @Override
     public void execute() {
-        double b = start.evaluate(program).getNumericValue();
-        double e = stop.evaluate(program).getNumericValue();
-        while (b <= e) {
-            program.setVariable(idxVar, new Value(b));
-            stmt.execute();
-            b += 1.0;
+        while (logic.evaluate(program).getIntegerValue()==1) {
+            //program.setVariable(idxVar, new Value(b));
+            try{
+                body.execute();
+            } catch (Breaking b){
+                return;
+            }
+            incement.execute();
         }
     }
 
     @Override
     public String toString() {
-        StringBuilder str = new StringBuilder();
-        str.append("for ")
-           .append(idxVar)
-           .append(" in (")
-           .append(start.toString())
-           .append(", ")
-           .append(stop.toString())
-           .append(")\ndo\n")
-           .append(stmt.toString())
-           .append("end\n");
-        return str.toString();
+        return "for (" +
+                //assignment.toString() +
+                "; " +
+                logic.toString() +
+                "; " +
+                incement.toString() +
+                ") { \n" +
+                body.toString() +
+                "}\n";
     }
 }

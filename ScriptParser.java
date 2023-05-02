@@ -1,4 +1,4 @@
-// Generated from D:/repos/fordprog\ScriptParser.g4 by ANTLR 4.12.0
+// Generated from /home/hex/Work/fordprog/ScriptParser.g4 by ANTLR 4.12.0
 
     import java.util.ArrayList;
     import java.util.List;

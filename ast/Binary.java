@@ -7,7 +7,7 @@ public class Binary extends Expression {
         ADD("+"), SUB("-"), MUL("*"), DIV("/"), PWR("^"),
         LT("<"), LTE("<="), GT(">"), GTE(">="),
         EQ("=="), NE("!=");
-        private String text;
+        private final String text;
         private BinaryOperator(String text) {
             this.text = text;
         }
@@ -38,22 +38,63 @@ public class Binary extends Expression {
         final double EPS = 1e-10;
         Value lhs = this.lhsNode.evaluate(p);
         Value rhs = this.rhsNode.evaluate(p);
-        switch (this.op) {
-            case ADD: return new Value(lhs.getNumericValue() + rhs.getNumericValue());
-            case SUB: return new Value(lhs.getNumericValue() - rhs.getNumericValue());
-            case MUL: return new Value(lhs.getNumericValue() * rhs.getNumericValue());
-            case DIV: return new Value(lhs.getNumericValue() / rhs.getNumericValue());
-            case PWR: return new Value(Math.pow(lhs.getNumericValue(), rhs.getNumericValue()));
-            case LT : return new Value( (lhs.getNumericValue() <  rhs.getNumericValue()) &&
-                                        (Math.abs(lhs.getNumericValue() - rhs.getNumericValue()) >= EPS) );
-            case LTE: return new Value( (lhs.getNumericValue() < rhs.getNumericValue()) ||
-                                        (Math.abs(lhs.getNumericValue() - rhs.getNumericValue()) < EPS));
-            case GT : return new Value( (lhs.getNumericValue() >  rhs.getNumericValue()) &&
-                                        (Math.abs(lhs.getNumericValue() - rhs.getNumericValue()) >= EPS) );
-            case GTE: return new Value( (lhs.getNumericValue() > rhs.getNumericValue()) ||
-                                        (Math.abs(lhs.getNumericValue() - rhs.getNumericValue()) < EPS));
-            case EQ : return new Value(Math.abs(lhs.getNumericValue() - rhs.getNumericValue()) < EPS);
-            case NE : return new Value(Math.abs(lhs.getNumericValue() - rhs.getNumericValue()) >= EPS);
+        if(lhs.isLong() != rhs.isLong()){
+            throw new TypeMismatchException("Binary operation between different types at " + this);
+        }
+        if(lhs.isLong()) {
+            switch (this.op) {
+                case ADD:
+                    return new Value(lhs.getIntegerValue() + rhs.getIntegerValue());
+                case SUB:
+                    return new Value(lhs.getIntegerValue() - rhs.getIntegerValue());
+                case MUL:
+                    return new Value(lhs.getIntegerValue() * rhs.getIntegerValue());
+                case DIV:
+                    return new Value(lhs.getIntegerValue() / rhs.getIntegerValue());
+                case PWR:
+                    return new Value(Math.pow(lhs.getIntegerValue(), rhs.getIntegerValue()));
+                case LT:
+                    return new Value(lhs.getIntegerValue() < rhs.getIntegerValue());
+                case LTE:
+                    return new Value(lhs.getIntegerValue() <= rhs.getIntegerValue());
+                case GT:
+                    return new Value(lhs.getIntegerValue() > rhs.getIntegerValue());
+                case GTE:
+                    return new Value(lhs.getIntegerValue() >= rhs.getIntegerValue());
+                case EQ:
+                    return new Value(lhs.getIntegerValue() == rhs.getIntegerValue());
+                case NE:
+                    return new Value(lhs.getIntegerValue() != rhs.getIntegerValue());
+            }
+        } else{
+            switch (this.op) {
+                case ADD:
+                    return new Value(lhs.getDoubleValue() + rhs.getDoubleValue());
+                case SUB:
+                    return new Value(lhs.getDoubleValue() - rhs.getDoubleValue());
+                case MUL:
+                    return new Value(lhs.getDoubleValue() * rhs.getDoubleValue());
+                case DIV:
+                    return new Value(lhs.getDoubleValue() / rhs.getDoubleValue());
+                case PWR:
+                    return new Value(Math.pow(lhs.getDoubleValue(), rhs.getDoubleValue()));
+                case LT:
+                    return new Value((lhs.getDoubleValue() < rhs.getDoubleValue()) &&
+                            (Math.abs(lhs.getDoubleValue() - rhs.getDoubleValue()) >= EPS));
+                case LTE:
+                    return new Value((lhs.getDoubleValue() < rhs.getDoubleValue()) ||
+                            (Math.abs(lhs.getDoubleValue() - rhs.getDoubleValue()) < EPS));
+                case GT:
+                    return new Value((lhs.getDoubleValue() > rhs.getDoubleValue()) &&
+                            (Math.abs(lhs.getDoubleValue() - rhs.getDoubleValue()) >= EPS));
+                case GTE:
+                    return new Value((lhs.getDoubleValue() > rhs.getDoubleValue()) ||
+                            (Math.abs(lhs.getDoubleValue() - rhs.getDoubleValue()) < EPS));
+                case EQ:
+                    return new Value(Math.abs(lhs.getDoubleValue() - rhs.getDoubleValue()) < EPS);
+                case NE:
+                    return new Value(Math.abs(lhs.getDoubleValue() - rhs.getDoubleValue()) >= EPS);
+            }
         }
         return null;
     }
